@@ -59,11 +59,34 @@ class rawMRutils:
                             rawDataArray.read_acquisition(0).data.shape[1],
                             eNy, eNz, eNt), dtype=np.complex64)
 
+      if ((rawDataArrayHeader.encoding[0].trajectory == 'epi') or
+          (rawDataArrayHeader.encoding[0].trajectoryDescription.identifier == 'ConventionalEPI')):
+         print ("Trajectory for this dataset is %s, and trajectory ID is %s"
+                % (rawDataArrayHeader.encoding[0].trajectory, rawDataArrayHeader.encoding[0].trajectoryDescription.identifier))
+
+         refData    = np.zeros((rawDataArray.read_acquisition(0).data.shape[0],
+                                rawDataArray.read_acquisition(0).data.shape[1],
+                                4, eNz, eNt), dtype=np.complex64)  # constant value of '4' should be replaced by code to get this
+                                                                   # value from the dataset's XML header.
+         refCounter = np.zeros((eNz, eNt), dtype=int)
+
       for i in range(rawDataArray.number_of_acquisitions()):
          thisAcq = rawDataArray.read_acquisition(i)
-         allKspace[:, :, thisAcq.idx.kspace_encode_step_1, thisAcq.idx.slice, thisAcq.idx.contrast] = thisAcq.data
 
-      return rawDataArrayHeader, allKspace
+         slice   = thisAcq.idx.slice
+         rep     = thisAcq.idx.repetition
+         # If acqusition doesn't contain image navigator data, store with regular image data
+         if not (thisAcq.is_flag_set(24)): # 24 == ACQ_IS_PHASECORR_DATA flag - need to figure out how to include definition
+            allKspace[:, :, thisAcq.idx.kspace_encode_step_1, slice, rep] = thisAcq.data
+         else:
+            refData  [:, :, refCounter[slice, rep],           slice, rep] = thisAcq.data
+            refCounter[slice,rep] += 1
+
+      if ((rawDataArrayHeader.encoding[0].trajectory == 'epi') or
+          (rawDataArrayHeader.encoding[0].trajectoryDescription.identifier == 'ConventionalEPI')):
+         return rawDataArrayHeader, allKspace, refData
+      else:
+         return rawDataArrayHeader, allKspace
 
 
 
