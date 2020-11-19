@@ -59,16 +59,31 @@ class rawMRutils:
                             rawDataArray.read_acquisition(0).data.shape[1],
                             eNy, eNz, eNt), dtype=np.complex64)
 
-      if ((rawDataArrayHeader.encoding[0].trajectory == 'epi') or
-          (rawDataArrayHeader.encoding[0].trajectoryDescription.identifier == 'ConventionalEPI')):
-         print ("Trajectory for this dataset is %s, and trajectory ID is %s"
-                % (rawDataArrayHeader.encoding[0].trajectory, rawDataArrayHeader.encoding[0].trajectoryDescription.identifier))
+      traj = rawDataArrayHeader.encoding[0].trajectory
+      if (traj == 'epi'):
+         trajID = rawDataArrayHeader.encoding[0].trajectoryDescription.identifier
+         if (trajID == 'ConventionalEPI'):
+            print ("Trajectory for this dataset is %s, and trajectory ID is %s" % (traj, trajID))
 
-         refData    = np.zeros((rawDataArray.read_acquisition(0).data.shape[0],
-                                rawDataArray.read_acquisition(0).data.shape[1],
-                                4, eNz, eNt), dtype=np.complex64)  # constant value of '4' should be replaced by code to get this
-                                                                   # value from the dataset's XML header.
-         refCounter = np.zeros((eNz, eNt), dtype=int)
+            # Iterate over the elements of the trajectory section, and get 'long' parameters needed for EPI.
+            for i, trajValue in enumerate(rawDataArrayHeader.encoding[0].trajectoryDescription.userParameterLong[:]):
+               print ("Variable %20s has value %05s" % (trajValue.orderedContent()[0].value,
+                                                    str(trajValue.orderedContent()[1].value)))
+
+               # Can replace below with a 'switch' statement if more EPI parameters need to be extracted
+               # and returned here.
+               #
+               # Can also access each parameter name via ...userParameterLong[i].name, i.e. trajValue.name,
+               # though trajValue does not return a usable value, which is why .orderedContent()[n].value is
+               # being used here.
+               if (trajValue.name == 'numberOfNavigators'):
+                  numEPInavs = trajValue.orderedContent()[1].value
+
+            refData    = np.zeros((rawDataArray.read_acquisition(0).data.shape[0],
+                                   rawDataArray.read_acquisition(0).data.shape[1],
+                                   numEPInavs, eNz, eNt), dtype=np.complex64)
+
+            refCounter = np.zeros((eNz, eNt), dtype=int)
 
       for i in range(rawDataArray.number_of_acquisitions()):
          thisAcq = rawDataArray.read_acquisition(i)
@@ -82,9 +97,9 @@ class rawMRutils:
             refData  [:, :, refCounter[slice, rep],           slice, rep] = thisAcq.data
             refCounter[slice,rep] += 1
 
-      if ((rawDataArrayHeader.encoding[0].trajectory == 'epi') or
-          (rawDataArrayHeader.encoding[0].trajectoryDescription.identifier == 'ConventionalEPI')):
-         return rawDataArrayHeader, allKspace, refData
+      if (traj == 'epi'):
+         if (rawDataArrayHeader.encoding[0].trajectoryDescription.identifier == 'ConventionalEPI'):
+            return rawDataArrayHeader, allKspace, refData
       else:
          return rawDataArrayHeader, allKspace
 
