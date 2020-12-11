@@ -90,11 +90,18 @@ class rawMRutils:
 
          slice   = thisAcq.idx.slice
          rep     = thisAcq.idx.repetition
+
+         # Check if data is "reverse" in direction in acquisition - flag 22.  If so, reverse order of loading.
+         if (thisAcq.is_flag_set(22)):
+            thisData = thisAcq.data[::-1]
+         else:
+            thisData = thisAcq.data
+
          # If acqusition doesn't contain image navigator data, store with regular image data
          if not (thisAcq.is_flag_set(24)): # 24 == ACQ_IS_PHASECORR_DATA flag - need to figure out how to include definition
-            allKspace[:, :, thisAcq.idx.kspace_encode_step_1, slice, rep] = thisAcq.data
+            allKspace[:, :, thisAcq.idx.kspace_encode_step_1, slice, rep] = thisData
          else:
-            refData  [:, :, refCounter[slice, rep],           slice, rep] = thisAcq.data
+            refData  [:, :, refCounter[slice, rep],           slice, rep] = thisData
             refCounter[slice,rep] += 1
 
       if (traj == 'epi'):
