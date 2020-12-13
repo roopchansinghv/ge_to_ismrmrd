@@ -93,7 +93,7 @@ class rawMRutils:
 
          # Check if data is "reverse" in direction in acquisition - flag 22.  If so, reverse order of loading.
          if (thisAcq.is_flag_set(22)):
-            thisData = thisAcq.data[::-1]
+            thisData = thisAcq.data[:,::-1] # First dimension of data *IS* channels, then number of readout points.
          else:
             thisData = thisAcq.data
 
