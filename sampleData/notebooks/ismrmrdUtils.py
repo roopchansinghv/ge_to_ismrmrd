@@ -168,3 +168,25 @@ class rawMRutils:
 
             subImages.imshow(reconnedImage, cmap)
 
+
+
+   def plotProfile (lines2Plot, quant='magnitude'):
+
+      '''
+         Routine to leverage matplotlib to plot magnitude or phase profile of
+         particular lines of data sent in the 'lines2Plot' variable.
+
+         The variable passed should be a single line or series of lines of
+         complex points.  The data to plot should be in the first dimension of
+         the array, and the lines indexed are in the second dimension.
+      '''
+
+      fig, ax = plt.subplots(1, 1, sharex=True, sharey=True)
+
+      if ((quant == 'angle') or (quant == 'phase')):
+         ax.plot(np.angle(lines2Plot), label=quant)
+      else: # plot magnitude of lines
+         ax.plot(np.abs(lines2Plot),   label=quant)
+
+      ax.legend()
+
