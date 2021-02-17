@@ -59,7 +59,7 @@ class rawMRutils:
                             rawDataArray.read_acquisition(0).data.shape[1],
                             eNy, eNz, eNt), dtype=np.complex64)
 
-      traj = rawDataArrayHeader.encoding[0].trajectory
+      traj = rawDataArrayHeader.encoding[0].trajectory.value
       if (traj == 'epi'):
          trajID = rawDataArrayHeader.encoding[0].trajectoryDescription.identifier
          if (trajID == 'ConventionalEPI'):
@@ -67,8 +67,8 @@ class rawMRutils:
 
             # Iterate over the elements of the trajectory section, and get 'long' parameters needed for EPI.
             for i, trajValue in enumerate(rawDataArrayHeader.encoding[0].trajectoryDescription.userParameterLong[:]):
-               print ("Variable %20s has value %05s" % (trajValue.orderedContent()[0].value,
-                                                    str(trajValue.orderedContent()[1].value)))
+               print ("Variable %20s has value %05s" % (trajValue.name,
+                                                    str(trajValue.value)))
 
                # Can replace below with a 'switch' statement if more EPI parameters need to be extracted
                # and returned here.
@@ -77,7 +77,7 @@ class rawMRutils:
                # though trajValue does not return a usable value, which is why .orderedContent()[n].value is
                # being used here.
                if (trajValue.name == 'numberOfNavigators'):
-                  numEPInavs = trajValue.orderedContent()[1].value
+                  numEPInavs = trajValue.value
 
             refData    = np.zeros((rawDataArray.read_acquisition(0).data.shape[0],
                                    rawDataArray.read_acquisition(0).data.shape[1],
