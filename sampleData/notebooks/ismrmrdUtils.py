@@ -45,6 +45,9 @@ class rawMRutils:
       else:
          eNt = 1
 
+      print ("Variable %20s has value %05s" % ("Nz", str(eNz)))
+      print ("Variable %20s has value %05s" % ("Nt", str(eNt)))
+
       # This will pack k-space data into a numpy array with the following
       # data order / shape:
       #
