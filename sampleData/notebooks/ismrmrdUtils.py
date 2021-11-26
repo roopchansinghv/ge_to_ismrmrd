@@ -156,7 +156,7 @@ class rawMRutils:
 
       for t in range(times2Plot):
          for s in range(slices2Plot):
-            subImages = plottedFigures.add_subplot(imageRows, imageCols, ((t * imageRows * imageCols / times2Plot) + s + 1))
+            subImages = plottedFigures.add_subplot(imageRows, imageCols, int((t * imageRows * imageCols / times2Plot) + s + 1))
 
             if ((quant == 'angle') or (quant == 'phase')):
                if (coil == -1):
