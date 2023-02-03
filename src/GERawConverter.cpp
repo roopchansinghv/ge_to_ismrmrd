@@ -373,6 +373,7 @@ std::string GERawConverter::ge_header_to_xml(GERecon::Legacy::LxDownloadDataPoin
     auto dicomImage = GERecon::Legacy::DicomImage(grayscaleImage, 0, imageCorners, series, *lxData);
     auto imageModule = dicomImage.ImageModule();
     // auto privateIdentityModule = dicomImage.PrivateIdentityModule();
+    // auto privateParameterModule = dicomImage.PrivateParameterModule();
 
     writer.startElement("Image");
     writer.formatElement("EchoTime", "%s",         imageModule->EchoTime().c_str());
@@ -476,6 +477,11 @@ std::string GERawConverter::ge_header_to_xml(GERecon::Legacy::LxDownloadDataPoin
     }
 
     writer.endDocument();
+
+    // To get a list of additional processing control variables that might be of use in sorting and labeling,
+    // on the machine where Orchestra is installed, and the SDKTOP environment variable is defined, run:
+    //
+    //    grep -Rn Value $SDKTOP | grep -v include | grep -v Binary | grep "\"" | cut -d '"' -f 2 | sort | uniq
 
     // DEBUG: std::cerr << "XML stream from GE is: " << writer.getXML().c_str() << std::endl;
 
