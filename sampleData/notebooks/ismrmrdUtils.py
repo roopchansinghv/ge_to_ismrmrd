@@ -15,7 +15,7 @@ class rawMRutils:
 
 
    def returnHeaderAndData (h5RawFilePath, dataElement='/dataset'):
-  
+
       '''
          Given an ISMRMRD data file, return a tuple with the first
          element being the XML header serialized into a structure,
