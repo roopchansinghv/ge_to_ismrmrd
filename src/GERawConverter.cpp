@@ -66,7 +66,7 @@ GERawConverter::GERawConverter(const std::string& rawFilePath, const std::string
    else
    {
       pfile_ = GERecon::Legacy::Pfile::Create(rawFilePath,
-                                              GERecon::Legacy::Pfile::AllAvailableAcquisitions,
+                                              GERecon::Legacy::Pfile::PfileReadMode::AllAvailableAcquisitions,
                                               GERecon::AnonymizationPolicy(GERecon::AnonymizationPolicy::None));
 
       lxData_ = pfile_->DownloadData();
@@ -243,7 +243,7 @@ std::string GERawConverter::ge_header_to_xml(GERecon::Legacy::LxDownloadDataPoin
 
     writer.formatElement("SliceCount", "%d",       processingControl->Value<int>("NumSlices"));
     writer.formatElement("ChannelCount", "%d",     processingControl->Value<int>("NumChannels"));
-    writer.formatElement("OtherUID", "%s",         GEDicom::UID::Create(GEDicom::UID::OtherUID).c_str());
+    // writer.formatElement("OtherUID", "%s",         GEDicom::UID::Create(GEDicom::UID::OtherUID).c_str());
 
     GERecon::Legacy::DicomSeries legacySeries(lxData);
     GEDicom::SeriesPointer series = legacySeries.Series();
@@ -300,7 +300,7 @@ std::string GERawConverter::ge_header_to_xml(GERecon::Legacy::LxDownloadDataPoin
     writer.formatElement("Station", "%s",          equipmentModule->Station().c_str());
     writer.formatElement("ManufacturerModel", "%s",   equipmentModule->ManufacturerModel().c_str());
     writer.formatElement("DeviceSerialNumber", "%s",  equipmentModule->DeviceSerialNumber().c_str());
-    writer.formatElement("UID", "%s",              GEDicom::UID::Create(GEDicom::UID::Equipment).c_str());
+    // writer.formatElement("UID", "%s",              GEDicom::UID::Create(GEDicom::UID::Equipment).c_str());
     writer.formatElement("SoftwareVersion", "%s",  equipmentModule->SoftwareVersion().c_str());
     writer.formatElement("PpsPerformedStation", "%s", equipmentModule->PpsPerformedStation().c_str());
     writer.formatElement("PpsPerformedLocation", "%s",equipmentModule->PpsPerformedLocation().c_str());
