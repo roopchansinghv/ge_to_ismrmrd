@@ -1,13 +1,12 @@
+
 # Getting started with the Orchestra to ISMRMRD converter library
 
 Orchestra conversion tools
 
-## To manually build and install the tools to convert GE raw files (using Orchestra 2.1-1) into ISMRMRD files:
+## To manually build and install the tools to convert GE raw files (using Orchestra) into ISMRMRD files:
 
-   As of Orchestra 2.1-1, GE now provides all support libraries to link against, when building
-   against Orchestra's API. Library versions have also up been updated / modernized, therefore
-   compilation using older ABIs might not be necessary.  This will be explored in subsequent
-   commits.
+   With Orchestra (currently, version 3.0.3), GE now provides all support libraries to link
+   against, when building against Orchestra's API.
 
    The steps outlined below should allow you to build and install ISMRMRD using Orchestra's
    Boost and HDF5 libraries, and the GE-to-ISMRMRD converter.
@@ -63,20 +62,6 @@ Orchestra conversion tools
    A good discussion of pointing cmake to alternate Boost installations can be found at [this](
    https://stackoverflow.com/questions/3016448/how-can-i-get-cmake-to-find-my-alternative-boost-installation)
    link.
-
-   It may also be necessary to force the usage of older ABIs standards for C++.  To accomplish this,
-   a switch along the lines of:
-
-   ```bash
-   -D_GLIBCXX_USE_CXX11_ABI=0
-   ```
-
-   will have to be added to the "CMAKE_CXX_FLAGS" option in the project's CMakeLists.txt file.
-
-1. If using the Gadgetron for reconstruction, please use a standard Gadgetron installation or Docker
-   container.  The Gadgetron now requires Boost version 1.65 or newer, which is newer than that
-   supplied with GE's latest Orchestra Linux SDK.  Therefore, Gadgetron currently cannot be built
-   using components from GE's Orchestra Linux SDK, as was previously possible.
 
 1. Obtain the GE converter source code:
 
@@ -139,3 +124,4 @@ Make sure `$ISMRMRD_HOME/bin` and `$GE_TOOLS_HOME/bin` are added to your environ
     ```bash
     docker run -it --rm -v `pwd`/src/config:/config -v `pwd`/sampleData:/sampleData ge_to_ismrmrd ge2ismrmrd -v -p GenericConverter -x /config/default.xsl /sampleData/ScanArchive_FSE.h5 -o /sampleData/ismrmrd_FSE.h5
     ```
+
