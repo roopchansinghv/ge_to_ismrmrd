@@ -19,7 +19,6 @@ add_library(${G2I_LIB} SHARED
             NIHPlugins/epiConverter.cpp
            )
 target_link_libraries(${G2I_LIB}
-    tls
     gomp
     ${ORCHESTRA_LIBRARIES}
     ${LIBXSLT_LIBRARIES}
