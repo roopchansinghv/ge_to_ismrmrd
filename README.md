@@ -86,7 +86,7 @@ Orchestra conversion tools
 Make sure `$ISMRMRD_HOME/bin` and `$GE_TOOLS_HOME/bin` are added to your environment's `PATH` variable,
    and that `$ISMRMRD_HOME/lib` and `$GE_TOOLS_HOME/lib` are added to your environment's `LD_LIBRARY_PATH`
    variable, to be able to use the libraries and binaries supplied with these tools.
-
+   
 1. A typical command line to convert the supplied P-file using this library is:
 
    ```bash

@@ -42,7 +42,7 @@ RUN cd /opt/code && \
     mkdir build && \
     cd build && \
     cmake -D CMAKE_INSTALL_PREFIX=$ISMRMRD_HOME -D build4GE=TRUE -D Boost_NO_BOOST_CMAKE=TRUE -D Boost_NO_SYSTEM_PATHS=TRUE .. && \
-    make install
+    make install 
 
 # ge_to_ismrmrd conveter
 RUN cd $BUILDTOP && \
