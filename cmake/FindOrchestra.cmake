@@ -106,7 +106,7 @@ foreach(lib h5tools hdf5_cpp hdf5 Hdf5                                          
                                                                                                      # common prefix, e.g. 'boost_' here.
     find_library(ORCHESTRA_SUPPORT_${lib}_LIBRARY ${lib}
         PATHS ${ORCHESTRA_TOPDIR}   ${ORCHESTRA_TOPDIR}/3p
-        PATH_SUFFIXES lib
+        PATH_SUFFIXES lib lib64
         NO_DEFAULT_PATH)
     mark_as_advanced(${ORCHESTRA_SUPPORT_${lib}_LIBRARY})
     list(APPEND ORCHESTRA_LIBRARIES ${ORCHESTRA_SUPPORT_${lib}_LIBRARY})
@@ -121,7 +121,7 @@ if(ORCHESTRA_BLITZ_INCLUDE_DIR)
     list(APPEND ORCHESTRA_INCLUDE_DIRS ${ORCHESTRA_BLITZ_INCLUDE_DIR})
 endif()
 
-link_directories (${ORCHESTRA_TOPDIR}/lib   ${ORCHESTRA_TOPDIR}/3p/lib)
+link_directories (${ORCHESTRA_TOPDIR}/lib   ${ORCHESTRA_TOPDIR}/3p/lib   ${ORCHESTRA_TOPDIR}/3p/lib64)
 
 include_directories (${ORCHESTRA_INCLUDE_DIR} ${ORCHESTRA_INCLUDE_DIRS})
 
