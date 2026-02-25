@@ -25,20 +25,22 @@ foreach(libs
          Acquisition.a
          Arc.a
          Asset.a
+         AssetPipeline.a
          BiasCorrection.a
          Calibration3D.a
          CalibrationCommon.a
-         CalibrationMatchers.a
          Cartesian2D.a
          Cartesian2DDataHandling.a
          Cartesian3D.a
          Cartesian3DDataHandling.a
+         Cine.a
          Clariview.a
          Common.a
          Control.a
          CorePipeline.a
-         Crucial.a
+         DefineFilter.a
          Dicom.a
+         Disco.a
          Epi.a
          EpiDataHandling.a
          EpiDiffusion.a
@@ -50,10 +52,19 @@ foreach(libs
          Gradwarp.a
          Hdf5.a
          Legacy.a
+         LegacySupport.a
+         LiveSupportCloud.a
+         LiveSupportDeployment.a
+         LiveSupportProcessing.a
+         LiveSupportShared.a
          Maestro.a
-         MaestroModels.a
          Math.a
          MoCo.a
+         MoCoSupport.a
+         OrchestraCrucial.a
+         OrchestraMaestro.a
+         OrchestraMaestroSupport.a
+         PhaseContrast.a
          ProcessingControl.a
          ProcessingFlow.a
          Pure1.a
@@ -61,6 +72,7 @@ foreach(libs
          ReceiveChainConfig.a
          ScanArchiveConverterUtils.a
          Scic.a
+         SoloSupport.a
          SpectroCommon.a
          SpectroMCSI.a
          SpectroMCSILegacy.a
@@ -68,10 +80,10 @@ foreach(libs
          SpectroSingleVoxel.a
          Spiral.a
          System.a
-         SystemServicesImplementation.a
-         SystemServicesInterface.a
+         SystemServices.a
          TestSupport.a
-         Core.a
+         Tricks.a
+         Core.a   # Needs to remain last on linkage list b/c of dependencies on previously listed libraries.
        )
 
     # list(APPEND ORCHESTRA_LIBRARIES $ENV{SDKTOP}/lib/lib${libs}.a)
