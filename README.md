@@ -47,6 +47,7 @@ Orchestra conversion tools
     mkdir build
     cd build/
     cmake -D build4GE=ON -D CMAKE_INSTALL_PREFIX=$ISMRMRD_HOME ..
+    make
     make install
     cd ../
     ```
